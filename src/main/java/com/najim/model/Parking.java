@@ -1,0 +1,48 @@
+package com.najim.model;
+
+public class Parking {
+    private Integer idParking;
+    private String name;
+    private String location;
+
+    public Parking() {
+    }
+
+    public Parking(String name, String location) {
+        this.name = name;
+        this.location = location;
+    }
+
+    public Integer getIdParking() {
+        return idParking;
+    }
+
+    public void setIdParking(Integer idParking) {
+        this.idParking = idParking;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "Parking{" +
+                "idParking=" + idParking +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
+}
