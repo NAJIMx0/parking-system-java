@@ -1,7 +1,7 @@
 package com.najim.model;
 
 public class Car {
-    private Integer idCar;
+    private int idCar;
     private String plateNumber;
     private String color;
 
@@ -13,11 +13,11 @@ public class Car {
         this.color = color;
     }
 
-    public Integer getIdCar() {
+    public int getIdCar() {
         return idCar;
     }
 
-    public void setIdCar(Integer idCar) {
+    public void setIdCar(int idCar) {
         this.idCar = idCar;
     }
 
@@ -45,4 +45,6 @@ public class Car {
                 ", color='" + color + '\'' +
                 '}';
     }
+
+
 }
