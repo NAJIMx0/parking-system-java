@@ -10,11 +10,11 @@ import java.util.List;
 
 public class CarDAO {
 
-//    saveCar() → INSERT a new car
-//    getCarById() → SELECT car by ID
-//    getAllCars() → SELECT all cars
-//    updateCar() → UPDATE car info
-//    deleteCar() → DELETE a car
+//    saveCar()
+//    getCarByplat()
+//    getAllCars()
+//    updateCar()
+//    deleteCar()
 
 
     public static boolean saveCar(Car cr ) throws SQLException {
