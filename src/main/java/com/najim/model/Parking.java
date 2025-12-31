@@ -13,6 +13,7 @@ public class Parking {
         this.location = location;
     }
 //test
+    //test2
     public int getIdParking() {
         return idParking;
     }
