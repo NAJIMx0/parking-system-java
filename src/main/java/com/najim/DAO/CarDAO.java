@@ -22,10 +22,17 @@ public class CarDAO {
         String sql = "INSERT INTO car (plateNumber, color) VALUES (?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, cr.getPlateNumber());
             ps.setString(2, cr.getColor());
-            ps.executeUpdate();
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    cr.setIdCar(rs.getInt(1));
+                }
+                rs.close();
+            }
             return true;
         }
 

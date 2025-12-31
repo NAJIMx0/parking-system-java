@@ -1,7 +1,7 @@
 package com.najim.model;
 
 public class Parking {
-    private Integer idParking;
+    private int idParking;
     private String name;
     private String location;
 
@@ -13,11 +13,11 @@ public class Parking {
         this.location = location;
     }
 
-    public Integer getIdParking() {
+    public int getIdParking() {
         return idParking;
     }
 
-    public void setIdParking(Integer idParking) {
+    public void setIdParking(int idParking) {
         this.idParking = idParking;
     }
 
