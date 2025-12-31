@@ -12,7 +12,7 @@ public class Parking {
         this.name = name;
         this.location = location;
     }
-
+//test
     public int getIdParking() {
         return idParking;
     }
