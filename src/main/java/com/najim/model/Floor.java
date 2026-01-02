@@ -8,11 +8,11 @@ public class Floor {
     public Floor() {
     }
 
-    public Floor(Integer floorNumber, Integer idParking) {
-        this.floorNumber = floorNumber;
-        this.parking = new Parking();
-        this.parking.setIdParking(idParking);
-    }
+//    public Floor(Integer floorNumber, Integer idParking) {
+//        this.floorNumber = floorNumber;
+//        this.parking = new Parking();
+//        this.parking.setIdParking(idParking);
+//    }
 
     public Floor(Integer floorNumber, Parking parking) {
         this.floorNumber = floorNumber;

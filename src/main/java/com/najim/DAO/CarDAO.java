@@ -57,6 +57,26 @@ public class CarDAO {
         }
         return null;
     }
+    public static Car getCarById(Integer id) throws SQLException {
+        String sql="SELECT * FROM Car WHERE IdCar = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Car Ocar = new Car();
+                Ocar.setIdCar(rs.getInt("idCar"));
+                Ocar.setPlateNumber(rs.getString("plateNumber"));
+                Ocar.setColor(rs.getString("color"));
+                rs.close();
+                ps.close();
+                conn.close();
+                return Ocar;
+            }
+        }
+        return null;
+    }
 
     public static List<Car> getAllCars() throws SQLException {
         String sql = "SELECT * FROM car";

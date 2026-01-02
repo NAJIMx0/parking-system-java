@@ -1,10 +1,10 @@
 package com.najim.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDateTime;  // ✅ Import this!
 
 public class Ticket {
     private Integer idTicket;
-    private LocalDateTime entryTime;
+    private LocalDateTime entryTime;  // ✅ Changed from Time to LocalDateTime
     private String spotType;
     private Car car;
     private Spot spot;
@@ -36,11 +36,11 @@ public class Ticket {
         this.idTicket = idTicket;
     }
 
-    public LocalDateTime getEntryTime() {
+    public LocalDateTime getEntryTime() {  // ✅ Changed return type
         return entryTime;
     }
 
-    public void setEntryTime(LocalDateTime entryTime) {
+    public void setEntryTime(LocalDateTime entryTime) {  // ✅ Changed parameter type
         this.entryTime = entryTime;
     }
 

@@ -20,10 +20,10 @@ public class ParkingDAO {
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, parking.getName());
             ps.setString(2, parking.getLocation());
-            ps.executeUpdate();
+            ps.executeUpdate();// 1
             int rows = ps.executeUpdate();
-            if (rows > 0) {
-                ResultSet rs = ps.getGeneratedKeys();
+            if (rows > 0) {// rows=1
+                ResultSet rs = ps.getGeneratedKeys();//[1,"ahmedparking","acd-pi90-22-ahmedpjdk"]
                 if (rs.next()) {
                     parking.setIdParking(rs.getInt(1));
                 }
