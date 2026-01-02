@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpotDAO {
-     public boolean saveSpot(Spot spot) throws Exception {
+     public static boolean saveSpot(Spot spot) throws Exception {
          if (spot.getIdFloor() == null || spot.getIdFloor() <= 0) {
              System.out.println("Error: Floor ID cannot be null or invalid");
              return false;
@@ -41,25 +41,31 @@ public class SpotDAO {
          }
      }
 
-     public Spot getSpotById(int id) throws Exception {
-         String sql = "SELECT + FROM spot WHERE spotNumber = ?";
+    public static Spot getSpotById(Integer id) throws SQLException {
+        String sql="SELECT * FROM Spot WHERE idSpot = ?";
 
-         try(Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)){
-             ps.setInt(1, id);
-             ResultSet rs = ps.executeQuery();
-             if (rs.next()){
-                 Spot spot = new Spot();
-                 spot.setSpotNumber(rs.getString("spotNumber"));
-                 spot.setStatus(rs.getString("status"));
-                 spot.setType(rs.getString("type"));
-                 return spot;
-             }
-         }
-         return null;
-     }
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Spot Ospot = new Spot();
+                Ospot.setIdSpot(rs.getInt("idSpot"));
+                Ospot.setSpotNumber(rs.getString("spotNumber"));
+                Ospot.setStatus(rs.getString("status"));
+                Ospot.setType(rs.getString("type"));
+                Integer idfloor = rs.getInt("idFloor");
+                Ospot.setFloor(FloorDAO.getFloorById(idfloor));
+                rs.close();
+                ps.close();
+                conn.close();
+                return Ospot;
+            }
+        }
+        return null;
+    }
 
-     public List<Spot> getAllSpots() throws Exception {
+     public static List<Spot> getAllSpots() throws Exception {
          String sql = "SELECT * FROM spot";
          List<Spot> spots = new ArrayList<>();
 
@@ -78,7 +84,7 @@ public class SpotDAO {
          return spots;
      }
 
-     public List<Spot> getSpotsByFloorId(int floorId) throws Exception {
+     public static List<Spot> getSpotsByFloorId(int floorId) throws Exception {
          String sql = "SELECT * FROM spot WHERE floorId = ?";
          List<Spot> spots = new ArrayList<>();
 
@@ -98,7 +104,7 @@ public class SpotDAO {
          return spots;
      }
 
-    public List<Spot> getFreeSpots() throws SQLException {
+    public static List<Spot> getFreeSpots() throws SQLException {
          String sql = "SELECT * FROM spot WHERE status = ?";
          List<Spot> spots = new ArrayList<>();
 
@@ -121,7 +127,7 @@ public class SpotDAO {
         return spots;
     }
 
-    public List<Spot> getFreeSpotsByType(String type) throws Exception {
+    public static List<Spot> getFreeSpotsByType(String type) throws Exception {
          String sql = "SELECT * FROM spot WHERE status = ? AND type = ?";
          List<Spot> spots = new ArrayList<>();
 
@@ -144,7 +150,7 @@ public class SpotDAO {
         return spots;
     }
 
-    public boolean updateSpot(Spot spot) throws Exception {
+    public static boolean updateSpot(Spot spot) throws Exception {
          String sql = "UPDATE spot SET spotNumber = ?, status = ?, type = ? WHERE idSpot = ?";
 
          try(Connection conn = DatabaseConnection.getConnection();
@@ -164,7 +170,7 @@ public class SpotDAO {
          }
     }
 
-    public boolean updateSpotStatus(int spotId, String status) throws Exception {
+    public static boolean updateSpotStatus(int spotId, String status) throws Exception {
          String sql =  "UPDATE spot SET status = ? WHERE idSpot = ?";
 
          try(Connection conn = DatabaseConnection.getConnection();
@@ -182,7 +188,7 @@ public class SpotDAO {
          }
     }
 
-    public boolean deleteSpot(int id) throws SQLException {
+    public static boolean deleteSpot(int id) throws SQLException {
         String sql = "DELETE FROM spot WHERE idSpot = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -199,7 +205,7 @@ public class SpotDAO {
         }
     }
 
-     public int countFreeSpots() throws SQLException {
+     public static int countFreeSpots() throws SQLException {
          String sql = "SELECT COUNT(*) FROM spot WHERE status = ?";
 
          try(Connection conn = DatabaseConnection.getConnection();
@@ -214,6 +220,5 @@ public class SpotDAO {
         return 0;
      }
 
-     //countFreeSpotsByType(String type){}
 
 }

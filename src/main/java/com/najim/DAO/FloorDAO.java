@@ -14,7 +14,7 @@ import java.util.List;
 
 public class FloorDAO {
 
-    public boolean saveFloor(Floor floor) throws SQLException {
+    public static boolean saveFloor(Floor floor) throws SQLException {
         String sql = "INSERT INTO floor (floorNumber, idParking)  VALUES (?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -33,25 +33,32 @@ public class FloorDAO {
     }
 
 
-    public Floor getFloorById(int id) throws SQLException {
-        String sql = "SELECT * FROM floor WHERE idFloor = ?";
+    public static Floor getFloorById(Integer id) throws SQLException {
+        String sql="SELECT * FROM Floor WHERE idFloor = ?";
 
-        try(Connection conn = DatabaseConnection.getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql)){
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                Floor floor = new Floor();
-                floor.setIdFloor(rs.getInt("idFloor"));
-                floor.setFloorNumber(rs.getInt("floorNumber"));
-                floor.setIdParking(rs.getInt("idParking"));
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Floor Ospot = new Floor();
+                Ospot.setIdFloor(rs.getInt("idFloor"));
+                Ospot.setFloorNumber(rs.getInt("floorNumber"));
+                Integer idp = rs.getInt("idParking");
+                Ospot.setParking(ParkingDAO.getParkingById(idp));
+
+
                 rs.close();
-                return floor;
+                ps.close();
+                conn.close();
+                return Ospot;
             }
         }
         return null;
     }
-    public List<Floor> getAllFloors() throws SQLException {
+
+
+    public static List<Floor> getAllFloors() throws SQLException {
         String sql = "SELECT * FROM floor";
         List<Floor> floors = new ArrayList<>();
 
@@ -71,7 +78,7 @@ public class FloorDAO {
         return floors;
     }
 
-    public List<Floor> getFloorsByParkingId(int parkingId) throws SQLException {
+    public static List<Floor> getFloorsByParkingId(int parkingId) throws SQLException {
         String sql = "SELECT * FROM floor WHERE idParking = ?";
         List<Floor> floors = new ArrayList<>();
 
@@ -92,7 +99,7 @@ public class FloorDAO {
         return floors;
     }
 
-//    public Floor getFloorById(int id) throws SQLException {
+//    public static Floor getFloorById(int id) throws SQLException {
 //        String sql = "SELECT * FROM floor WHERE idFloor = ?";
 //
 //        try(Connection conn = DatabaseConnection.getConnection();
@@ -115,7 +122,7 @@ public class FloorDAO {
 //    }
 //
 
-    public boolean updateFloor(Floor floor)  throws SQLException {
+    public static boolean updateFloor(Floor floor)  throws SQLException {
         String sql = "UPDATE floor SET floorNumber = ? WHERE idFloor = ?";
 
         try(Connection conn = DatabaseConnection.getConnection();
@@ -134,7 +141,7 @@ public class FloorDAO {
     }
 
 
-   public boolean deleteFloor(int id) throws SQLException {
+   public static boolean deleteFloor(int id) throws SQLException {
         String sql = "DELETE FROM floor WHERE idFloor = ?";
 
         try(Connection conn = DatabaseConnection.getConnection();

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ParkingDAO {
 
-    public boolean saveParking(Parking parking) throws SQLException {
+    public static boolean saveParking(Parking parking) throws SQLException {
         String sql = "INSERT INTO parking (name, location) VALUES (?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -34,7 +34,7 @@ public class ParkingDAO {
     }
 
 
-    public Parking getParkingByLocalization(String lc) throws SQLException {
+    public static Parking getParkingByLocalization(String lc) throws SQLException {
         String sql="SELECT * FROM parking WHERE location = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -55,7 +55,7 @@ public class ParkingDAO {
         return null;
     }
 
-    public Parking getParkingById(int id) throws SQLException {
+    public static Parking getParkingById(int id) throws SQLException {
         String sql="SELECT * FROM parking WHERE idParking = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -76,7 +76,7 @@ public class ParkingDAO {
         return null;
     }
 
-    public List<Parking> getAllParkings() throws SQLException{
+    public static List<Parking> getAllParkings() throws SQLException{
         String sql = "SELECT * FROM parking ";
         List<Parking> Lparking = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
@@ -96,7 +96,7 @@ public class ParkingDAO {
         return Lparking;
     }
 
-    public Parking getParkingByName(String name) throws SQLException {
+    public static Parking getParkingByName(String name) throws SQLException {
         String sql = "SELECT * FROM parking WHERE name = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -118,7 +118,7 @@ public class ParkingDAO {
     }
 
 
-//   public boolean updateParking(Parking parking) throws SQLException{
+//   public static boolean updateParking(Parking parking) throws SQLException{
 //        String sql = "UPDATE parking SET name = ?, location = ? WHERE idParking = ?";
 //
 //        try(Connection conn = DatabaseConnection.getConnection();
@@ -136,7 +136,7 @@ public class ParkingDAO {
 //        return true;
 //   }
 
-    public boolean updateParkingName(Parking parking) throws SQLException{
+    public static boolean updateParkingName(Parking parking) throws SQLException{
         String sql = "UPDATE parking SET name = ? WHERE idParking = ?";
 
         try(Connection conn = DatabaseConnection.getConnection();
@@ -154,7 +154,7 @@ public class ParkingDAO {
         }
     }
 
-    public boolean deleteParking(int id) throws SQLException{
+    public static boolean deleteParking(int id) throws SQLException{
         String sql = "DELETE FROM parking WHERE idParking = ?";
 
         try(Connection conn = DatabaseConnection.getConnection();
