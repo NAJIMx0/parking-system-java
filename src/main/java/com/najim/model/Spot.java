@@ -69,6 +69,11 @@ public class Spot {
         return floor != null ? floor.getIdFloor() : null;
     }
 
+    public  void setIdFloor(Integer idFloor) {
+        this.floor = new Floor();
+        this.floor.setIdFloor(idFloor);
+    }
+
     @Override
     public String toString() {
         return "Spot{" +

@@ -47,6 +47,13 @@ public class Floor {
         return parking != null ? parking.getIdParking() : null;
     }
 
+    public int setIdParking(Integer idParking) {
+        if(idParking != null){
+            this.parking.setIdParking(idParking);
+        }
+        return 0;
+    }
+
     @Override
     public String toString() {
         return "Floor{" +
