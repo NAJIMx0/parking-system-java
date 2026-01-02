@@ -7,10 +7,34 @@ import com.najim.model.Floor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class FloorDAO {
 
+    public static Floor getFloorById(Integer id) throws SQLException {
+        String sql="SELECT * FROM Floor WHERE idFloor = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Floor Ospot = new Floor();
+                Ospot.setIdFloor(rs.getInt("idFloor"));
+                Ospot.setFloorNumber(rs.getInt("floorNumber"));
+                Integer idp = rs.getInt("idParking");
+                Ospot.setParking(ParkingDAO.getParkingById(idp));
+
+
+                rs.close();
+                ps.close();
+                conn.close();
+                return Ospot;
+            }
+        }
+        return null;
+    }
 //    public boolean saveFloor(Floor floor) { }
 //
 //
