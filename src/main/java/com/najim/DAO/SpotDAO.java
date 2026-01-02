@@ -1,24 +1,35 @@
 package com.najim.DAO;
 
 import com.najim.connection.DatabaseConnection;
+import com.najim.model.Floor;
 import com.najim.model.Spot;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpotDAO {
-    // public boolean saveSpot(Spot spot) {}setidspot
-    // public Spot getSpotById(int id) {}spot
-    // public List<Spot> getAllSpots() {}list spot
-    // public List<Spot> getSpotsByFloorId(int floorId) {} spot by id floor
-    //public List<Spot> getFreeSpots() {} status
-    //public List<Spot> getFreeSpotsByType(String type) {} free vip !?
-    // public boolean updateSpot(Spot spot) {}
-    //public boolean updateSpotStatus(int spotId, String status) {}
-    // public boolean deleteSpot(int id) {}
-    // public int countFreeSpots() {} count
+
+    public static boolean saveSpot(Spot spot) throws Exception {
+        String sql = "INSERT INTO spot (spotNumber, status, type, idFloor) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, spot.getSpotNumber());
+            ps.setString(2, spot.getStatus());
+            ps.setString(3, spot.getType());
+            ps.setInt(4, spot.getIdFloor());
+            int row = ps.executeUpdate();
+            if (row > 0){
+                System.out.println("spot saved successful");
+                return true;
+            }else{
+                System.out.println("spot save failed");
+                return false;
+            }
+        }
+    }
+
     public static Spot getSpotById(Integer id) throws SQLException {
         String sql="SELECT * FROM Spot WHERE idSpot = ?";
 
@@ -43,4 +54,165 @@ public class SpotDAO {
         return null;
     }
 
+    public static List<Spot> getAllSpots() throws Exception {
+        String sql = "SELECT * FROM spot";
+        List<Spot> spots = new ArrayList<>();
+
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Spot spot = new Spot();
+                spot.setSpotNumber(rs.getString("spotNumber"));
+                spot.setStatus(rs.getString("status"));
+                spot.setType(rs.getString("type"));
+
+                spots.add(spot);
+            }
+        }
+        return spots;
+    }
+
+    public static List<Spot> getSpotsByFloorId(int floorId) throws Exception {
+        String sql = "SELECT * FROM spot WHERE floorId = ?";
+        List<Spot> spots = new ArrayList<>();
+
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setInt(1, floorId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Spot spot = new Spot();
+                spot.setSpotNumber(rs.getString("spotNumber"));
+                spot.setStatus(rs.getString("status"));
+                spot.setType(rs.getString("type"));
+
+                spots.add(spot);
+            }
+        }
+        return spots;
+    }
+
+    public static List<Spot> getFreeSpots() throws SQLException {
+        String sql = "SELECT * FROM spot WHERE status = ?";
+        List<Spot> spots = new ArrayList<>();
+
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, "FREE");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Spot spot = new Spot();
+                spot.setIdSpot(rs.getInt("idSpot"));
+                spot.setSpotNumber(rs.getString("spotNumber"));
+                spot.setStatus(rs.getString("status"));
+                spot.setType(rs.getString("type"));
+                spot.setIdFloor(rs.getInt("idFloor"));
+
+                spots.add(spot);
+            }
+            rs.close();
+        }
+        return spots;
+    }
+
+    public static List<Spot> getFreeSpotsByType(String type) throws Exception {
+        String sql = "SELECT * FROM spot WHERE status = ? AND type = ?";
+        List<Spot> spots = new ArrayList<>();
+
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, "FREE");
+            ps.setString(2, type);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Spot spot = new Spot();
+                spot.setIdSpot(rs.getInt("idSpot"));
+                spot.setSpotNumber(rs.getString("spotNumber"));
+                spot.setStatus(rs.getString("status"));
+                spot.setType(rs.getString("type"));
+                spot.setIdFloor(rs.getInt("idFloor"));
+
+                spots.add(spot);
+            }
+        }
+        return spots;
+    }
+
+    public static boolean updateSpot(Spot spot) throws Exception {
+        String sql = "UPDATE spot SET spotNumber = ?, status = ?, type = ? WHERE idSpot = ?";
+
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, spot.getSpotNumber());
+            ps.setString(2, spot.getStatus());
+            ps.setString(3, spot.getType());
+            ps.setInt(4, spot.getIdSpot());
+            int rs = ps.executeUpdate();
+            if (rs > 0){
+                System.out.println("Spot updated successfuly");
+                return true;
+            }else{
+                System.out.println("UPDATE spot failed");
+                return false;
+            }
+        }
+    }
+
+    public static boolean updateSpotStatus(int spotId, String status) throws Exception {
+        String sql =  "UPDATE spot SET status = ? WHERE idSpot = ?";
+
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, status);
+            ps.setInt(2, spotId);
+            int rs = ps.executeUpdate();
+            if (rs > 0){
+                System.out.println("Spot status updated successfuly");
+                return true;
+            }else{
+                System.out.println("UPDATE spot status failed");
+                return false;
+            }
+        }
+    }
+
+    public static boolean deleteSpot(int id) throws SQLException {
+        String sql = "DELETE FROM spot WHERE idSpot = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            int row = ps.executeUpdate();
+            if (row > 0) {
+                System.out.println("Spot id: " + id + " deleted successfully");
+                return true;
+            } else {
+                System.out.println("Spot id: " + id + " not deleted successfully");
+                return false;
+            }
+        }
+    }
+
+    public static int countFreeSpots() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM spot WHERE status = ?";
+
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, "FREE");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                int count = rs.getInt(1);
+                return count;
+            }
+        }
+        return 0;
+    }
+
+
 }
+
+
+
+
+

@@ -20,10 +20,10 @@ public class ParkingDAO {
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, parking.getName());
             ps.setString(2, parking.getLocation());
-            ps.executeUpdate();// 1
+            ps.executeUpdate();
             int rows = ps.executeUpdate();
-            if (rows > 0) {// rows=1
-                ResultSet rs = ps.getGeneratedKeys();//[1,"ahmedparking","acd-pi90-22-ahmedpjdk"]
+            if (rows > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) {
                     parking.setIdParking(rs.getInt(1));
                 }
@@ -80,7 +80,7 @@ public class ParkingDAO {
         String sql = "SELECT * FROM parking ";
         List<Parking> Lparking = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
+             PreparedStatement ps = conn.prepareStatement(sql)){
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 Parking parking = new Parking();
@@ -100,7 +100,7 @@ public class ParkingDAO {
         String sql = "SELECT * FROM parking WHERE name = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
+             PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, name);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
@@ -110,7 +110,7 @@ public class ParkingDAO {
                 parking.setLocation(rs.getString("location"));
                 rs.close();
                 ps.close();
-            //    conn.close();
+                //    conn.close();
                 return parking;
             }
         }
@@ -145,29 +145,24 @@ public class ParkingDAO {
             ps.setInt(2, parking.getIdParking());
             int rs = ps.executeUpdate();
             if (rs > 0){
-                System.out.println(parking.getName() + " updated successfully");
                 return true;
-            }else{
-                System.out.println(parking.getName() + " not updated successfully");
-                return false;
             }
         }
+        return false;
     }
 
     public static boolean deleteParking(int id) throws SQLException{
         String sql = "DELETE FROM parking WHERE idParking = ?";
 
         try(Connection conn = DatabaseConnection.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sql)){
+            PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, id);
             int rs = ps.executeUpdate();
             if (rs > 0){
-                System.out.println("Parking id: " + id + " deleted successfully");
                 return true;
-            }else{
-                System.out.println("Parking id: " + id + " not deleted successfully");
-                return false;
             }
         }
+        return false;
     }
 }
+
