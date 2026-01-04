@@ -5,10 +5,7 @@ import com.najim.model.Car;
 import com.najim.model.Floor;
 import com.najim.model.Parking;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +16,15 @@ public class FloorDAO {
         String sql = "INSERT INTO floor (floorNumber, idParking)  VALUES (?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)){
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, floor.getFloorNumber());
             stmt.setInt(2, floor.getIdParking());
             int row =  stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
             if (row > 0) {
+                if (rs.next()) {
+                    floor.setIdFloor(rs.getInt(1));
+                }
                 return true;
             }else{
                 return false;

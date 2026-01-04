@@ -14,17 +14,20 @@ public class SpotDAO {
         String sql = "INSERT INTO spot (spotNumber, status, type, idFloor) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)){
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, spot.getSpotNumber());
             ps.setString(2, spot.getStatus());
             ps.setString(3, spot.getType());
             ps.setInt(4, spot.getIdFloor());
             int row = ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
             if (row > 0){
-                System.out.println("spot saved successful");
+                if(rs.next()){
+                    spot.setIdSpot(rs.getInt(1));
+                }
                 return true;
             }else{
-                System.out.println("spot save failed");
+
                 return false;
             }
         }
