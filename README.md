@@ -1,7 +1,4 @@
-Perfect — here is the **FINAL, clean, copy-paste ready `README.md`**
-👉 **No explanations, no comments, just the file content.**
 
----
 
 ````markdown
 # 🚗 Parking System Java
@@ -174,5 +171,3 @@ Software Engineering Student | Java Developer
 GitHub: [https://github.com/NAJIMx0](https://github.com/NAJIMx0)
 
 ```
-
-
