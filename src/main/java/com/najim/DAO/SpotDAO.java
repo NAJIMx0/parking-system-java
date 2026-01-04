@@ -118,6 +118,28 @@ public class SpotDAO {
         }
         return spots;
     }
+    public static List<Spot> getOccupiedSpots() throws SQLException {
+        String sql = "SELECT * FROM spot WHERE status = ?";
+        List<Spot> spots = new ArrayList<>();
+
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, "OCCUPIED");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Spot spot = new Spot();
+                spot.setIdSpot(rs.getInt("idSpot"));
+                spot.setSpotNumber(rs.getString("spotNumber"));
+                spot.setStatus(rs.getString("status"));
+                spot.setType(rs.getString("type"));
+                spot.setIdFloor(rs.getInt("idFloor"));
+
+                spots.add(spot);
+            }
+            rs.close();
+        }
+        return spots;
+    }
 
     public static List<Spot> getFreeSpotsByType(String type) throws Exception {
         String sql = "SELECT * FROM spot WHERE status = ? AND type = ?";
@@ -171,10 +193,8 @@ public class SpotDAO {
             ps.setInt(2, spotId);
             int rs = ps.executeUpdate();
             if (rs > 0){
-                System.out.println("Spot status updated successfuly");
                 return true;
             }else{
-                System.out.println("UPDATE spot status failed");
                 return false;
             }
         }

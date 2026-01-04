@@ -1,5 +1,7 @@
 package com.najim.Service;
 
+import java.time.LocalDateTime;
+
 public class PaymentService {
 
     private static final double FIRST_HOUR_RATE = 2.0; //taman d sa3a (lowla) dayman 1h = 2 dh
@@ -11,13 +13,16 @@ public class PaymentService {
 //    private static final double Discounts = 0.0;// vip
 // if 2 hours 15 minutes = ? -- Chargilo  (2.5 hours × rate)
 
-//    calculateFee(long hours)
+//   static kamlin  calculateFee(long hours)
 //calculateFee(LocalDateTime entry, LocalDateTime exit) ta hado b streams ila khask
 //getTotalRevenue() streams
 //getRevenueByMethod(String method) streams
+    // duration between entry time and exit in Hour  sf
 
 
-
+ public  static  double calculateFee(LocalDateTime entry, LocalDateTime exit){
+     return 0.0;
+ }
 
 
 }
