@@ -1,16 +1,23 @@
 package com.najim.Service;
 
+import com.najim.DAO.PaymentDAO;
+import com.najim.Main;
+import com.najim.model.Payment;
+
+import java.sql.SQLException;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class PaymentService {
 
-    private static final double FIRST_HOUR_RATE = 2.0; //taman d sa3a (lowla) dayman 1h = 2 dh
-    private static final double ADDITIONAL_HOUR_RATE = 1.5; // taman li (gaytzad )kola sa3a  2h = 2dh +1.5dh
-    private static final double MAX_DAILY_RATE = 20.0; // max d nhar ila parka 3andk 20 dh
-    private static final double MIN_RATE = 2.0;// ila dkhal ga 15 min
 
-
-//    private static final double Discounts = 0.0;// vip
+    private static final double FIRST_HOUR_PAY = 2.0;
+    private static final double ADDITIONAL_HOUR_PAY = 1.5;
+    private static final double MAX_DAILY_PAY = 20.0;
+    //    private static final double Discounts = 0.0;// vip
 // if 2 hours 15 minutes = ? -- Chargilo  (2.5 hours × rate)
 
 //   static kamlin  calculateFee(long hours)
@@ -19,10 +26,65 @@ public class PaymentService {
 //getRevenueByMethod(String method) streams
     // duration between entry time and exit in Hour  sf
 
+    public static double calculateFee(LocalDateTime entry, LocalDateTime exit) {
 
- public  static  double calculateFee(LocalDateTime entry, LocalDateTime exit){
-     return 0.0;
- }
+        long totalMinutes = Duration.between(entry, exit).toMinutes();
+        if (totalMinutes <= 0) {
+            return 0.0;
+        }
+        long hours = totalMinutes / 60;
+        long remainingMinutes = totalMinutes % 60;
+
+        if (remainingMinutes > 30) {
+            hours++;
+        }
+
+        double amount;
+        if (hours == 0) {
+            amount = 1;
+        } else if (hours == 1) {
+            amount = FIRST_HOUR_PAY;
+        } else {
+            amount = FIRST_HOUR_PAY + ((hours - 1) * ADDITIONAL_HOUR_PAY);
+        }
+        if (amount > MAX_DAILY_PAY) {
+            amount = MAX_DAILY_PAY;
+        }
+
+        return amount;
+    }
+    public static double calculateFee(long hours) {
+        if (hours <= 0) {
+            return 0.0;
+        }
+        double amount;
+        if (hours == 1) {
+            amount = FIRST_HOUR_PAY;
+        } else {
+            amount = FIRST_HOUR_PAY + ((hours - 1) * ADDITIONAL_HOUR_PAY);
+        }
+        if (amount > MAX_DAILY_PAY) {
+            amount = MAX_DAILY_PAY;
+        }
+
+        return amount;
+    }
+    public static double getTotalRevenue() throws SQLException {
+        List<Payment> payments = PaymentDAO.getAllPayments();
+
+        return payments.stream()
+                .mapToDouble(py-> py.getAmount())
+                .sum();
+    }
+    public static double getRevenueByMethod(String method) throws SQLException {
+        List<Payment> payments = PaymentDAO.getPaymentsByMethod(method);
+
+        return payments.stream()
+                .mapToDouble(py-> py.getAmount())
+                .sum();
+    }
+
+
 
 
 }
