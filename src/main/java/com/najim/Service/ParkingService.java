@@ -45,8 +45,7 @@ public class ParkingService {
         );
 
         TicketDAO.saveTicket(ticket);
-        SpotDAO.updateSpotStatus(spot.getIdSpot(), "OCCUPIED");
-
+        markOccupied(spot);
         return ticket;
     }
 
@@ -69,7 +68,7 @@ public class ParkingService {
 //                    private Ticket ticket;
                     Payment py = new Payment(fee , exit ,paymentMethod, ticket.getIdTicket());
                     PaymentDAO.savePayment(py);
-                    SpotDAO.updateSpotStatus(sp.getIdSpot(), "FREE");
+                    markFree(sp);
                     return py;
                 }
 
@@ -83,10 +82,16 @@ public class ParkingService {
     public static List<Spot> findAvailableSpots() throws Exception {
         return SpotDAO.getFreeSpots();
     }
+    public static Integer CountAvaibleSpots() throws Exception {
+        return findAvailableSpots().stream().mapToInt(s -> s.getIdSpot()).sum();
+    }
 
 
     public static List<Spot> findAvailableSpotsByType(String type) throws Exception {
         return SpotDAO.getFreeSpotsByType(type);
+    }
+    public static Integer CountAvaibleSpotsByType(String tp) throws Exception {
+        return findAvailableSpotsByType(tp).stream().mapToInt(s -> s.getIdSpot()).sum();
     }
 
     public static boolean isCarCurrentlyParked(String plateNumber) throws Exception {
@@ -107,6 +112,12 @@ public class ParkingService {
 
     public static List<Ticket> getCurrentlyParkedCars() throws Exception {
         return TicketDAO.getActiveTickets();
+    }
+    public static  void markOccupied(Spot spot) throws Exception{
+        SpotDAO.updateSpotStatus(spot.getIdSpot(), "OCCUPIED");
+    }
+    public static  void markFree(Spot spot) throws Exception{
+        SpotDAO.updateSpotStatus(spot.getIdSpot(), "FREE");
     }
 
 }
