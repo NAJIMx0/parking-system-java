@@ -8,6 +8,7 @@ import com.najim.model.Car;
 import com.najim.model.Payment;
 import com.najim.model.Spot;
 import com.najim.model.Ticket;
+import com.najim.synchronization.ParkingQueue;
 import com.najim.synchronization.PaymentProcessor;
 import com.najim.synchronization.SpotAllocator;
 
@@ -19,8 +20,10 @@ import java.util.Optional;
 public class ParkingService {
 
 //    park car, exit car, check availability
-
+private static ParkingQueue parkingQueue = new ParkingQueue(50);
     public static Ticket parkCar(Car car, String type) throws Exception {
+
+        parkingQueue.waitForSpot();
 
         Car dbCar = CarDAO.getCarByplateNumber(car.getPlateNumber());
         if (dbCar == null) {
@@ -35,7 +38,8 @@ public class ParkingService {
 //                .findFirst();
 
         if (spot==null) {
-            throw new IllegalStateException("No available spot for type: " + type);
+            parkingQueue.SpoteFree();  // Release the spot we reserved
+            return null;
         }
 
         Ticket ticket = new Ticket(
@@ -59,8 +63,9 @@ public class ParkingService {
             if (ticket != null) {
                 Spot sp = SpotDAO.getSpotById(ticket.getIdSpot());
                 if (sp != null) {
-                    LocalDateTime entry = ticket.getEntryTime();
-                    LocalDateTime exit = LocalDateTime.now();
+                    LocalDateTime entry = ticket.getEntryTime();//9
+                    LocalDateTime exit = LocalDateTime.now();//10
+
                     // before reentraanlock
 //                    double fee = PaymentService.calculateFee(entry,exit);
 //                    Payment py = new Payment(fee , exit ,paymentMethod, ticket.getIdTicket());
@@ -68,9 +73,10 @@ public class ParkingService {
 
                     // after
                     //payment event
-                    Payment py = PaymentProcessor.processPayment(entry,exit , paymentMethod,ticket.getIdTicket());
+                    Payment py = PaymentProcessor.processPayment(entry,LocalDateTime.now() , paymentMethod,ticket.getIdTicket());
                     // end pymetn
                     markFree(sp);
+                    parkingQueue.SpoteFree();
                     return py;
                 }
 

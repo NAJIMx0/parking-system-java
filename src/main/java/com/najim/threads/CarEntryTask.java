@@ -3,6 +3,7 @@ package com.najim.threads;
 import com.najim.Service.ParkingService;
 import com.najim.model.Car;
 import com.najim.model.Ticket;
+import com.najim.synchronization.EntryGateController;
 
 public class CarEntryTask implements Runnable {
 
@@ -19,6 +20,7 @@ public class CarEntryTask implements Runnable {
     @Override
     public void run() {
         try {
+            EntryGateController.EnterinGate(plateNumber);
             System.out.println("Car "+plateNumber+" is trying to ENTER...");
             Car car = new Car(plateNumber,color);
             Ticket tk = ParkingService.parkCar(car , spotType);
@@ -33,4 +35,21 @@ public class CarEntryTask implements Runnable {
             System.out.println(e.getMessage());
         }
     }
+
+
+
+
+        public static void main(String[] args) {
+
+            Runnable car1 = new CarEntryTask("123-ABC", "Red", "NORMAL");
+            Runnable car2 = new CarEntryTask("456-DEF", "Blue", "VIP");
+            Runnable car3 = new CarEntryTask("789-GHI", "Black", "NORMAL");
+
+            // Run directly (no thread)
+            car1.run();
+            car2.run();
+            car3.run();
+        }
+
+
 }

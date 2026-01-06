@@ -28,14 +28,15 @@ public class PaymentService {
 
     public static double calculateFee(LocalDateTime entry, LocalDateTime exit) {
 
-        long totalMinutes = Duration.between(entry, exit).toMinutes();
+        long totalMinutes = Duration.between(entry, exit).toMinutes();//150  min
         if (totalMinutes <= 0) {
             return 0.0;
         }
-        long hours = totalMinutes / 60;
-        long remainingMinutes = totalMinutes % 60;
+        // 2 + 1.5 +1.5
+        long hours = totalMinutes / 60;// 2 h
+        long remainingMinutes = totalMinutes % 60; // 30minu
 
-        if (remainingMinutes > 30) {
+        if (remainingMinutes >= 30) {
             hours++;
         }
 
@@ -47,7 +48,7 @@ public class PaymentService {
         } else {
             amount = FIRST_HOUR_PAY + ((hours - 1) * ADDITIONAL_HOUR_PAY);
         }
-        if (amount > MAX_DAILY_PAY) {
+        if (amount > 24) {
             amount = MAX_DAILY_PAY;
         }
 
