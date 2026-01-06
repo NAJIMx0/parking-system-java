@@ -8,6 +8,8 @@ import com.najim.model.Car;
 import com.najim.model.Payment;
 import com.najim.model.Spot;
 import com.najim.model.Ticket;
+import com.najim.synchronization.PaymentProcessor;
+import com.najim.synchronization.SpotAllocator;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class ParkingService {
 
 //    park car, exit car, check availability
+
     public static Ticket parkCar(Car car, String type) throws Exception {
 
         Car dbCar = CarDAO.getCarByplateNumber(car.getPlateNumber());
@@ -25,17 +28,15 @@ public class ParkingService {
         } else {
             car = dbCar;
         }
+        Spot spot = SpotAllocator.allocateSpot(type);
+//        Optional<Spot> spotOpt = SpotDAO.getFreeSpots()
+//                .stream()
+//                .filter(s -> s.getType().equals(type))
+//                .findFirst();
 
-        Optional<Spot> spotOpt = SpotDAO.getFreeSpots()
-                .stream()
-                .filter(s -> s.getType().equals(type))
-                .findFirst();
-
-        if (spotOpt.isEmpty()) {
+        if (spot==null) {
             throw new IllegalStateException("No available spot for type: " + type);
         }
-
-        Spot spot = spotOpt.get();
 
         Ticket ticket = new Ticket(
                 LocalDateTime.now(),
@@ -60,14 +61,15 @@ public class ParkingService {
                 if (sp != null) {
                     LocalDateTime entry = ticket.getEntryTime();
                     LocalDateTime exit = LocalDateTime.now();
-                    double fee = PaymentService.calculateFee(entry,exit);
-//                    private Integer idPayment;
-//                    private Double amount;
-//                    private LocalDateTime paymentTime;
-//                    private String paymentMethod;
-//                    private Ticket ticket;
-                    Payment py = new Payment(fee , exit ,paymentMethod, ticket.getIdTicket());
-                    PaymentDAO.savePayment(py);
+                    // before reentraanlock
+//                    double fee = PaymentService.calculateFee(entry,exit);
+//                    Payment py = new Payment(fee , exit ,paymentMethod, ticket.getIdTicket());
+//                    PaymentDAO.savePayment(py);
+
+                    // after
+                    //payment event
+                    Payment py = PaymentProcessor.processPayment(entry,exit , paymentMethod,ticket.getIdTicket());
+                    // end pymetn
                     markFree(sp);
                     return py;
                 }

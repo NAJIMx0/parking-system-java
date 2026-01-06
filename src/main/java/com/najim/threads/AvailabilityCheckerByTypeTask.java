@@ -16,7 +16,7 @@ public class AvailabilityCheckerByTypeTask implements Callable<List<Integer>> {
         List<Integer> res = new ArrayList<>();
         Integer countVIP = ParkingService.CountAvaibleSpotsByType("VIP");
         Integer countREGULAR = ParkingService.CountAvaibleSpotsByType("REGULAR");
-        res.add(countVIP);// index 1
+        res.add(countVIP);// index 0
         res.add(countREGULAR);
         return res;
     }
