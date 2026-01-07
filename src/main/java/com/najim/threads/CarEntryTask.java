@@ -38,18 +38,4 @@ public class CarEntryTask implements Runnable {
 
 
 
-
-        public static void main(String[] args) {
-
-            Runnable car1 = new CarEntryTask("123-ABC", "Red", "NORMAL");
-            Runnable car2 = new CarEntryTask("456-DEF", "Blue", "VIP");
-            Runnable car3 = new CarEntryTask("789-GHI", "Black", "NORMAL");
-
-            // Run directly (no thread)
-            car1.run();
-            car2.run();
-            car3.run();
-        }
-
-
 }
