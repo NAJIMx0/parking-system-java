@@ -12,10 +12,10 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PaymentProcessor {
     private static ReentrantLock lock = new ReentrantLock();
 
-    ///  controlle ktar 3la time of the payment not like synchronized payment wait to muchc it make problem
+    ///  controlle ktar 3la time of the payment not like synchronized payment wait to muchc in querys it make problem
 
 
-public static Payment processPayment(LocalDateTime entry , LocalDateTime exit ,String pymethod, Integer tkId) throws Exception {
+public  Payment processPayment(LocalDateTime entry , LocalDateTime exit ,String pymethod, Integer tkId) throws Exception {
     if(lock.tryLock(5, TimeUnit.SECONDS)){
         try {
             double fee = PaymentService.calculateFee(entry,exit);//2

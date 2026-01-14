@@ -7,6 +7,8 @@ import com.najim.synchronization.EntryGateController;
 
 public class CarEntryTask implements Runnable {
 
+    private static final EntryGateController gateController = new EntryGateController();
+
     private String plateNumber;
     private String color;
     private String spotType;
@@ -20,10 +22,13 @@ public class CarEntryTask implements Runnable {
     @Override
     public void run() {
         try {
-            EntryGateController.EnterinGate(plateNumber);
+            gateController.EnterinGate(plateNumber);
+
             System.out.println("Car "+plateNumber+" is trying to ENTER...");
+
             Car car = new Car(plateNumber,color);
             Ticket tk = ParkingService.parkCar(car , spotType);
+
             if (tk != null) {
                 System.out.println("Car "+plateNumber+" is PARKING... ");
             }else  {

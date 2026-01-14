@@ -14,8 +14,8 @@ public class AvailabilityCheckerByTypeTask implements Callable<List<Integer>> {
     @Override
     public List<Integer> call() throws Exception {
         List<Integer> res = new ArrayList<>();
-        Integer countVIP = ParkingService.CountAvaibleSpotsByType("VIP");
-        Integer countREGULAR = ParkingService.CountAvaibleSpotsByType("REGULAR");
+        Integer countVIP = ParkingService.findAvailableSpotsByType("VIP").size();
+        Integer countREGULAR = ParkingService.findAvailableSpotsByType("REGULAR").size();
         res.add(countVIP);// index 0
         res.add(countREGULAR);
         return res;

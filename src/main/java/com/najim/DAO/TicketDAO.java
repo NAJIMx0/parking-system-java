@@ -2,6 +2,7 @@ package com.najim.DAO;
 
 import com.najim.connection.DatabaseConnection;
 import com.najim.model.Car;
+import com.najim.model.Spot;
 import com.najim.model.Ticket;
 
 import java.sql.*;
@@ -177,27 +178,45 @@ public class TicketDAO {
         }
     }
     public static List<Ticket> getActiveTickets()throws SQLException{
-        String sql = "SELECT t.* FROM Ticket t INNER JOIN Spot s ON t.idSpot = s.idSpot WHERE s.status = 'OCCUPIED'";
-        try (Connection conn = DatabaseConnection.getConnection()){
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT t.idTicket, t.entryTime, t.spotType, t.idCar, t.idSpot, " +
+                "c.plateNumber, c.color, " +
+                "s.spotNumber, s.status, s.type, s.idFloor " +
+                "FROM Ticket t " +
+                "INNER JOIN Spot s ON t.idSpot = s.idSpot " +
+                "INNER JOIN Car c ON t.idCar = c.idCar " +
+                "WHERE s.status = 'OCCUPIED'";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             List<Ticket> tickets = new ArrayList<>();
             while (rs.next()) {
+                // Create Car object
+                Car car = new Car();
+                car.setIdCar(rs.getInt("idCar"));
+                car.setPlateNumber(rs.getString("plateNumber"));
+                car.setColor(rs.getString("color"));
+
+                // Create Spot object
+                Spot spot = new Spot();
+                spot.setIdSpot(rs.getInt("idSpot"));
+                spot.setSpotNumber(rs.getString("spotNumber"));
+                spot.setStatus(rs.getString("status"));
+                spot.setType(rs.getString("type"));
+                spot.setIdFloor(rs.getInt("idFloor"));
+
+                // Create Ticket object
                 Ticket tk = new Ticket();
-                tk.setIdTicket(rs.getInt(1));
+                tk.setIdTicket(rs.getInt("idTicket"));
                 tk.setEntryTime(rs.getTimestamp("entryTime").toLocalDateTime());
-                tk.setSpotType(rs.getString(3));
-                Integer idCar = rs.getInt(4);
-                Integer idSpot = rs.getInt(5);
-                tk.setCar(CarDAO.getCarById(idCar));
-                tk.setSpot(SpotDAO.getSpotById(idSpot));
+                tk.setSpotType(rs.getString("spotType"));
+                tk.setCar(car);
+                tk.setSpot(spot);
+
                 tickets.add(tk);
             }
-            rs.close();
-            ps.close();
             return tickets;
-
-
         }
     }
     public static Integer countTotalTickets() throws SQLException{

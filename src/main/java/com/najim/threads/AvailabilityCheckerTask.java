@@ -11,7 +11,7 @@ public class AvailabilityCheckerTask implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        return ParkingService.CountAvaibleSpots();
+        return ParkingService.findAvailableSpots().size();
     }
 //    Future<Integer> future = executor.submit(new AvailabilityCheckerTask());
 //    Integer revenue = future.get();

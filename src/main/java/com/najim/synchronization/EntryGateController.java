@@ -4,13 +4,14 @@ import java.util.concurrent.Semaphore;
 
 public class EntryGateController {
 
-    private static Semaphore gates = new Semaphore(2);
+    private Semaphore gates = new Semaphore(2);
 
-    public static void EnterinGate(String platenumber) throws Exception{
+    public void EnterinGate(String platenumber) throws Exception{
         gates.acquire();
         try{
-            System.out.println(" entering...");
-            Thread.sleep(10000);
+            System.out.println("Car " + platenumber + " entering through gate...");
+            Thread.sleep(2000);//normal 5 to 6 s
+            System.out.println("Car " + platenumber + " passed through entry gate!");
         }catch (Exception e){
             System.out.println(e.getMessage());
         }finally {

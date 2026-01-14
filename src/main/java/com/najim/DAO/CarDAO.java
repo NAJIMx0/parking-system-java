@@ -58,7 +58,7 @@ public class CarDAO {
         return null;
     }
     public static Car getCarById(Integer id) throws SQLException {
-        String sql="SELECT * FROM Car WHERE IdCar = ?";
+        String sql="SELECT * FROM Car WHERE idCar = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {

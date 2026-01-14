@@ -54,22 +54,22 @@ public class PaymentService {
 
         return amount;
     }
-    public static double calculateFee(long hours) {
-        if (hours <= 0) {
-            return 0.0;
-        }
-        double amount;
-        if (hours == 1) {
-            amount = FIRST_HOUR_PAY;
-        } else {
-            amount = FIRST_HOUR_PAY + ((hours - 1) * ADDITIONAL_HOUR_PAY);
-        }
-        if (amount > MAX_DAILY_PAY) {
-            amount = MAX_DAILY_PAY;
-        }
-
-        return amount;
-    }
+//    public static double calculateFee(long hours) {
+//        if (hours <= 0) {
+//            return 0.0;
+//        }
+//        double amount;
+//        if (hours == 1) {
+//            amount = FIRST_HOUR_PAY;
+//        } else {
+//            amount = FIRST_HOUR_PAY + ((hours - 1) * ADDITIONAL_HOUR_PAY);
+//        }
+//        if (amount > MAX_DAILY_PAY) {
+//            amount = MAX_DAILY_PAY;
+//        }
+//
+//        return amount;
+//    }
     public static double getTotalRevenue() throws SQLException {
         List<Payment> payments = PaymentDAO.getAllPayments();
 
