@@ -593,16 +593,13 @@ Shows:
 - Spot release notifications
 - Queue updates (45→44→43 occupancy)
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 Author
 
 **Najim**
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- GitHub: [@NAJIMx0](https://github.com/NAJIMx0)
+- LinkedIn: [Najim Badr Eddine](https://www.linkedin.com/in/najim-badr-eddine/)
 
 ## 🙏 Acknowledgments
 
