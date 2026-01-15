@@ -22,17 +22,17 @@ public class DatabaseConnection {
         }
     }
 
-    public static void closeConnection(Connection conn) {
-        if (conn != null) {
-            try {
-                conn.close();
-                System.out.println("Connection closed!");
-            }catch (SQLException e){
-                System.out.println("Failed to close database connection!");
-                e.printStackTrace();
-            }
-        }
-    }
+//    public static void closeConnection(Connection conn) {
+//        if (conn != null) {
+//            try {
+//                conn.close();
+//                System.out.println("Connection closed!");
+//            }catch (SQLException e){
+//                System.out.println("Failed to close database connection!");
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
 //    public static void testConnection() {
 //        Connection conn = null;
