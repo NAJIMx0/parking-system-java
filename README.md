@@ -457,7 +457,7 @@ Contributions are welcome! Please follow these guidelines:
 ### Car Entry Flow
 The complete flow from gate entry through parking queue management to spot allocation:
 
-![Car Entry Flow](docs/images/entry-flow-diagram.png)
+![Car Entry Flow](docs/entry-flow-diagram.png)
 
 **Key Components:**
 - **EntryGateController**: Semaphore-based gate access control (2 gates max)
@@ -470,7 +470,7 @@ The complete flow from gate entry through parking queue management to spot alloc
 ### Car Exit Flow
 Payment processing and spot release with synchronization:
 
-![Car Exit Flow](docs/images/exit-flow-diagram.png)
+![Car Exit Flow](docs/exit-flow-diagram.png)
 
 **Key Components:**
 - **ExitCar Service**: Validates car and ticket existence
@@ -481,7 +481,7 @@ Payment processing and spot release with synchronization:
 ---
 
 ### Park Car Service - Detailed Flow
-![Park Car Flow](docs/images/parkcar-flow.png)
+![Park Car Flow](docs/parkcar-flow.png)
 
 Shows the complete parkCar() method flow including:
 - Queue waiting mechanism
@@ -492,7 +492,7 @@ Shows the complete parkCar() method flow including:
 ---
 
 ### Exit Car Service - Detailed Flow  
-![Exit Car Flow](docs/images/exitcar-flow.png)
+![Exit Car Flow](docs/exitcar-flow.png)
 
 Complete exitCar() method showing:
 1. Car lookup by plate number
@@ -504,7 +504,7 @@ Complete exitCar() method showing:
 ---
 
 ### Payment Calculation Algorithm
-![Payment Calculation](docs/images/payment-calculation.png)
+![Payment Calculation](docs/payment-calculation.png)
 
 Fee structure implementation:
 - Duration calculation using `Duration.between()`
@@ -516,7 +516,7 @@ Fee structure implementation:
 ---
 
 ### Availability Checker & Callable Tasks
-![Availability Checker](docs/images/availability-checker.png)
+![Availability Checker](docs/availability-checker.png)
 
 Demonstrates:
 - Callable tasks returning availability counts
@@ -526,7 +526,7 @@ Demonstrates:
 ---
 
 ### Callable Tasks Pattern
-![Callable Tasks](docs/images/callable-tasks.png)
+![Callable Tasks](docs/callable-tasks.png)
 
 Shows the Future/Callable pattern for:
 - Revenue calculation using Stream API
@@ -536,7 +536,7 @@ Shows the Future/Callable pattern for:
 ---
 
 ### Statistics with Stream API
-![Statistics Streams](docs/images/statistics-streams.png)
+![Statistics Streams](docs/statistics-streams.png)
 
 Revenue calculation using Java Streams:
 ```java
@@ -551,7 +551,7 @@ Demonstrates functional programming for aggregations
 ## 🖥️ Console Interface
 
 ### Main Menu
-![Main Menu](docs/images/console-main-menu.png)
+![Main Menu](docs/console-main-menu.png)
 
 Features include:
 - Individual car park/exit operations
@@ -563,7 +563,7 @@ Features include:
 ---
 
 ### Currently Parked Cars Display
-![Parked Cars](docs/images/console-parked-cars.png)
+![Parked Cars](docs/console-parked-cars.png)
 
 Real-time view showing:
 - License plate numbers
@@ -574,7 +574,7 @@ Real-time view showing:
 ---
 
 ### Concurrent Entry Demo (10 Cars)
-![Concurrent Entry](docs/images/console-concurrent-entry.png)
+![Concurrent Entry](docs/console-concurrent-entry.png)
 
 Demonstrates:
 - 2 entry gates handling 10 concurrent cars
@@ -585,7 +585,7 @@ Demonstrates:
 ---
 
 ### Concurrent Exit Demo (5 Cars)
-![Concurrent Exit](docs/images/console-concurrent-exit.png)
+![Concurrent Exit](docs/console-concurrent-exit.png)
 
 Shows:
 - 2 exit gates processing 5 cars simultaneously
@@ -593,16 +593,13 @@ Shows:
 - Spot release notifications
 - Queue updates (45→44→43 occupancy)
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 Author
 
 **Najim**
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- GitHub: [@NAJIMx0](https://github.com/NAJIMx0)
+- LinkedIn: [Najim Badr Eddine](https://www.linkedin.com/in/najim-badr-eddine/)
 
 ## 🙏 Acknowledgments
 
