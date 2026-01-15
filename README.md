@@ -11,7 +11,7 @@ A robust, concurrent parking management system built with Java, featuring thread
 
 - [Overview](#overview)
 - [Features](#features)
-- [Architecture](#architecture)
+- [Architecture](##architecture)
 - [Concurrency & Synchronization](#concurrency--synchronization)
 - [Database Schema](#database-schema)
 - [Getting Started](#getting-started)
