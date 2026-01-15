@@ -298,6 +298,7 @@ public class Main {
         System.out.println("REVENUE REPORT");
         System.out.println(SEPARATOR);
 
+
         double total = PaymentService.getTotalRevenue();
         double cash = PaymentService.getRevenueByMethod("CASH");
         double card = PaymentService.getRevenueByMethod("CARD");

@@ -7,7 +7,7 @@ public class EntryGateController {
     private Semaphore gates = new Semaphore(2);
 
     public void EnterinGate(String platenumber) throws Exception{
-        gates.acquire();
+        gates.acquire();//1
         try{
             System.out.println("Car " + platenumber + " entering through gate...");
             Thread.sleep(2000);//normal 5 to 6 s
@@ -15,7 +15,7 @@ public class EntryGateController {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }finally {
-            gates.release();
+            gates.release();//2
         }
     }
 }
